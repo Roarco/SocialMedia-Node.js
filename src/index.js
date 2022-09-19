@@ -4,6 +4,8 @@ const config = require('./config');
 const routes = require('./network/routes');
 const port = config.port;
 
+app.use(express.json());
+
 //Router set
 routes(app);
 

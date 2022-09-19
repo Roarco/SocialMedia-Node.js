@@ -6,7 +6,7 @@ const db ={
 };
 
 const list = (table) => {
-    return db[table];
+    return  db[table];
 };
 
 const get = (table,id) => {
@@ -14,11 +14,18 @@ const get = (table,id) => {
 };
 
 const upsert = (table,data) => {
-    db[table].push(data);
+    const lastId = db[table][db[table].length - 1].id;
+    const newIdIn = parseInt(lastId) + 1;
+    const newId = newIdIn.toString();
+    const newData = {
+        id: newId,
+        ...data,
+    }
+    db[table].push(newData);
 };
 
 const remove = (table,id) => {
-    return true;
+    db[table] = db[table].filter(item => item.id !== id);
 };
 
 module.exports = {
