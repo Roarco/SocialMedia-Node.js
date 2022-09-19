@@ -9,6 +9,8 @@ app.use(express.json());
 //Router set
 routes(app);
 
-app.listen(port, () => {
+app.listen(port, listen);
+
+function listen() {
     console.log(`Example app listening at http://localhost:${port}`);
-});
+}
