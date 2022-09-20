@@ -29,8 +29,8 @@ async function getById(req, res) {
 
 async function createUser(req, res) {
     try {
-        const { name } = req.body;
-        const user = await controller.upsert(name);
+        const { name , username, password } = req.body;
+        const user = await controller.upsert(name, username, password);
         response.success(req, res, 'Usuario creado', 201, user);
     } catch (err) {
         response.error(req, res, err.message, err.status, err.details);

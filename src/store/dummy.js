@@ -1,7 +1,5 @@
 const db ={
     user: [
-        {id: '1', name: 'John Doe'},
-        {id: '2', name: 'Jane Doe'},
     ],
 };
 
@@ -14,14 +12,11 @@ const get = (table,id) => {
 };
 
 const upsert = (table,data) => {
-    const lastId = db[table][db[table].length - 1].id;
-    const newIdIn = parseInt(lastId) + 1;
-    const newId = newIdIn.toString();
-    const newData = {
-        id: newId,
-        ...data,
+    if (!db[table]) {
+        db[table] = [];
     }
-    db[table].push(newData);
+    console.log(db);
+    db[table].push(data);
 };
 
 const remove = (table,id) => {
