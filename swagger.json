@@ -1,0 +1,104 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Red Social",
+        "version": "1.0.0",
+        "description": "Una red social en NodeJS"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3001",
+            "description": "Local server"
+        }
+    ],
+    "paths": {
+        "/api/user":{
+            "get":{
+                "tags":["User"],
+                "summary":"Get all users",
+                "responses": {
+                    "200": {
+                        "description": "Users were obtained"
+                    }
+                }
+            },
+            "post":{
+                "tags":["User"],
+                "summary":"Create user",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/createUser"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User was created"
+                    }
+                }
+            }
+        },
+        "/api/user/{id}":{
+            "get":{
+                "tags":["User"],
+                "summary":"Get user by id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User was obtained"
+                    }
+                }
+            },
+            "delete":{
+                "tags":["User"],
+                "summary":"Delete user by id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User was deleted"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "createUser":{
+                "type": "object",
+                "properties":{
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "User"
+        }
+    ]
+}
