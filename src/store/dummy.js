@@ -1,18 +1,8 @@
 const db ={
     user: [
-        {
-            "id": "ePm0i_lgSLr9OLCWq3dzl",
-            "name":"Enrique Perez",
-            "username": "enriqueperez",
-            "password": "1234",
-        }
     ],
-    auth: [{
-        "id": "ePm0i_lgSLr9OLCWq3dzl",
-        "name":"Enrique Perez",
-        "username": "enriqueperez",
-        "password": "1234",
-    }]
+    auth: [
+    ]
 };
 
 const list = (table) => {

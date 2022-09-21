@@ -1,5 +1,6 @@
 const auth = require('../auth');
 const nanoid = require('nanoid')
+const bcrypt = require('bcryptjs');
 
 const TABLE = 'user';
 
@@ -26,13 +27,13 @@ module.exports = function(injectedStore) {
             id: nanoid(),
             name,
             username,
-            password,
+            password: await bcrypt.hash(password, 5),
         };
         if (password || username) {
             await auth.upsert({
                 id: user.id,
                 username: user.username,
-                password,
+                password: user.password,
             });
         }
         return await store.upsert(TABLE, user);
