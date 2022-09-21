@@ -1,6 +1,18 @@
 const db ={
     user: [
+        {
+            "id": "ePm0i_lgSLr9OLCWq3dzl",
+            "name":"Enrique Perez",
+            "username": "enriqueperez",
+            "password": "1234",
+        }
     ],
+    auth: [{
+        "id": "ePm0i_lgSLr9OLCWq3dzl",
+        "name":"Enrique Perez",
+        "username": "enriqueperez",
+        "password": "1234",
+    }]
 };
 
 const list = (table) => {
@@ -15,7 +27,6 @@ const upsert = (table,data) => {
     if (!db[table]) {
         db[table] = [];
     }
-    console.log(db);
     db[table].push(data);
 };
 
@@ -23,9 +34,15 @@ const remove = (table,id) => {
     db[table] = db[table].filter(item => item.id !== id);
 };
 
+const query = (table,quer) => {
+    return db[table].filter(item => item.username === quer.username);
+};
+
+
 module.exports = {
     list,
     get,
     upsert,
     remove,
+    query,
 };
