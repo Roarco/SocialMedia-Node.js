@@ -28,6 +28,16 @@ const query = (table,quer) => {
     return db[table].filter(item => item.username === quer.username);
 };
 
+const update = (table,id,data) => {
+    //buscamos el elemento que queremos actualizar
+    const index = db[table].findIndex(item => item.id === id);
+    //actualizamos unicamente los datos que nos llegan
+    db[table][index] = {
+        ...db[table][index],
+        ...data
+    };
+};
+
 
 module.exports = {
     list,
@@ -35,4 +45,5 @@ module.exports = {
     upsert,
     remove,
     query,
+    update,
 };

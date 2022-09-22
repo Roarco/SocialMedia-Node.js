@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const response = require('../../network/response');
 const controller = require('./index');
+const secure = require('./secure');
 
 router.get('/', getAll);
 router.get('/:id', getById);
 router.post('/', createUser);
+router.put('/:id',secure('update'), updateUser);
 router.delete('/:id', deleteUser);
 
 async function getAll(req, res) {
@@ -42,6 +44,17 @@ async function deleteUser(req, res) {
         const { id } = req.params;
         const user = await controller.remove(id);
         response.success(req, res, 'Usuario eliminado', 200, user);
+    } catch (err) {
+        response.error(req, res, err.message, err.status, err.details);
+    }
+}
+
+async function updateUser(req, res) {
+    try {
+        const { id } = req.params;
+        const data = req.body;
+        const user = await controller.update(id, data);
+        response.success(req, res, 'Usuario actualizado', 200, user);
     } catch (err) {
         response.error(req, res, err.message, err.status, err.details);
     }

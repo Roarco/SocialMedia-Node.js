@@ -43,10 +43,18 @@ module.exports = function(injectedStore) {
         return await store.remove(TABLE, id);
     };
 
+    const update = async (id, data) => {
+        if (!id || !data) {
+            return Promise.reject('Invalid data');
+        }
+        return await store.update(TABLE, id, data);
+    };
+
     return {
         list,
         get,
         upsert,
         remove,
+        update,
     };
 }
