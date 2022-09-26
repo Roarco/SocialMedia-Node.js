@@ -1,15 +1,16 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config');
+const boom = require('@hapi/boom');
 
 const sign = (data) => {
     return jwt.sign(data, config.jwtSecret);
 };
 
 const check ={
-    own: function(req, owner){
+    own: function(req,res, owner){
         const decoded = decodeHeader(req);
         if(decoded.id !== owner){
-            throw new Error('You can not do this');
+            throw boom.unauthorized('You can not do this');
         }
     },
 }
@@ -24,7 +25,7 @@ const decodeHeader = (req) => {
 
 const getToken = (authorization) => {
     if(!authorization){
-        throw new Error('There is not token');
+        throw boom.unauthorized('No token');
     }
     if(authorization.indexOf('Bearer ') === -1){
         throw new Error('Invalid format');

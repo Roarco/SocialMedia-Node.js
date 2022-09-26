@@ -10,53 +10,53 @@ router.post('/', createUser);
 router.put('/:id',secure('update'), updateUser);
 router.delete('/:id', deleteUser);
 
-async function getAll(req, res) {
+async function getAll(req, res, next) {
     try {
         const list = await controller.list();
         response.success(req, res, 'Lista de usuarios', 200, list);
     } catch (err) {
-        response.error(req, res, err.message, err.status, err.details);
+        next(err);
     }
 }
 
-async function getById(req, res) {
+async function getById(req, res, next) {
     try {
         const { id } = req.params;
         const user = await controller.get(id);
         response.success(req, res, 'Usuario', 200, user);
     } catch (err) {
-        response.error(req, res, err.message, err.status, err.details);
+        next(err);
     }
 }
 
-async function createUser(req, res) {
+async function createUser(req, res, next) {
     try {
         const { name , username, password } = req.body;
         const user = await controller.upsert(name, username, password);
         response.success(req, res, 'Usuario creado', 201, user);
     } catch (err) {
-        response.error(req, res, err.message, err.status, err.details);
+        next(err);
     }
 }
 
-async function deleteUser(req, res) {
+async function deleteUser(req, res, next) {
     try {
         const { id } = req.params;
         const user = await controller.remove(id);
         response.success(req, res, 'Usuario eliminado', 200, user);
     } catch (err) {
-        response.error(req, res, err.message, err.status, err.details);
+        next(err);
     }
 }
 
-async function updateUser(req, res) {
+async function updateUser(req, res, next) {
     try {
         const { id } = req.params;
         const data = req.body;
         const user = await controller.update(id, data);
         response.success(req, res, 'Usuario actualizado', 200, user);
     } catch (err) {
-        response.error(req, res, err.message, err.status, err.details);
+        next(err);
     }
 }
 

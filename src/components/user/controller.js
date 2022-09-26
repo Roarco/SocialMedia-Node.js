@@ -1,6 +1,7 @@
 const auth = require('../auth');
 const nanoid = require('nanoid')
 const bcrypt = require('bcryptjs');
+const boom = require('@hapi/boom');
 
 const TABLE = 'user';
 
@@ -20,7 +21,7 @@ module.exports = function(injectedStore) {
 
     const upsert = async (name,username,password) => {
         if (!name || !username || !password) {
-            return Promise.reject('Invalid name');
+            throw boom.badRequest('Invalid data');
         }
 
         const user = {
@@ -44,8 +45,9 @@ module.exports = function(injectedStore) {
     };
 
     const update = async (id, data) => {
-        if (!id || !data) {
-            return Promise.reject('Invalid data');
+        //validamos que data no este vacio
+        if (!data || !Object.keys(data).length) {
+            throw boom.badRequest('Invalid data');
         }
         return await store.update(TABLE, id, data);
     };
