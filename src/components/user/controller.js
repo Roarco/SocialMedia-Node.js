@@ -41,7 +41,11 @@ module.exports = function(injectedStore) {
     };
 
     const remove = async (id) => {
-        return await store.remove(TABLE, id);
+        const user = await store.get(TABLE, id);
+        if (user.length === 0) {
+            throw boom.badRequest('Invalid user');
+        }
+        await store.remove(TABLE, id);
     };
 
     const update = async (id, data) => {

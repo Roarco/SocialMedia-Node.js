@@ -42,8 +42,56 @@ const list = (table) => {
     })
 }
 
+const get = (table, id) => {
+    return new Promise((resolve, reject) => {
+        connection.query(`SELECT * FROM ${table} WHERE id = '${id}'`, (err, data) => {
+            if (err) return reject(err);
+            resolve(data);
+        })
+    })
+}
 
+const upsert = (table, data) => {
+    return new Promise((resolve, reject) => {
+        connection.query(`INSERT INTO ${table} SET ?`, data, (err, result) => {
+            if (err) return reject(err);
+            resolve(result);
+        })
+    })
+}
+
+const query = (table, query) => {
+    return new Promise((resolve, reject) => {
+        connection.query(`SELECT * FROM ${table} WHERE ?`, query, (err, res) => {
+            if (err) return reject(err);
+            resolve(res || null);
+        })
+    })
+}
+
+const remove = (table, id) => {
+    return new Promise((resolve, reject) => {
+        connection.query(`DELETE FROM ${table} WHERE id = '${id}'`, (err, res) => {
+            if (err) return reject(err);
+            resolve(res);
+        })
+    })
+}
+
+const update = (table,id, data) => {
+    return new Promise((resolve, reject) => {
+        connection.query(`UPDATE ${table} SET ? WHERE id = '${id}'`, data, (err, res) => {
+            if (err) return reject(err);
+            resolve(res);
+        })
+    })
+}
 
 module.exports = {
     list,
+    get,
+    upsert,
+    query,
+    remove,
+    update,
 };
