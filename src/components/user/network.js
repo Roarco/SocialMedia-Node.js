@@ -6,7 +6,7 @@ const secure = require('./secure');
 
 router.get('/', getAll);
 router.get('/:id', getById);
-router.get('/:id/following',secure('follow'), following);
+router.get('/:id/following', following);
 router.post('/follows/:id', secure('follow'), follows);
 router.post('/', createUser);
 router.put('/:id',secure('update'), updateUser);

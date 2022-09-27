@@ -16,7 +16,11 @@ module.exports = function(injectedStore) {
     };
 
     const get = async (id) => {
-        return await store.get(TABLE, id);
+        const user = await store.get(TABLE, id);
+        if (user.length === 0) {
+            throw boom.badRequest('Invalid user');
+        }
+        return user;
     };
 
     const upsert = async (name,username,password) => {
@@ -63,8 +67,16 @@ module.exports = function(injectedStore) {
         });
     };
 
-    const following = async (id) => {
-        return await store.query(TABLE + '_follow', { user_from: id });
+    const following = async (user) => {
+        const join = {};
+        join[TABLE] = 'user_to';
+        const query = { user_from: user };
+        const following = await store.query(TABLE + '_follow', query, join);
+        // eliminamos el campo password de la respuesta
+        return following.map((follow) => {
+            delete follow.password;
+            return follow;
+        });
     };
     return {
         list,

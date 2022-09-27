@@ -27,3 +27,11 @@ CREATE TABLE user_follow (
     user_to VARCHAR(30) NOT NULL,
     PRIMARY KEY (user_from, user_to)
 );
+
+--create table post
+CREATE TABLE post (
+    id VARCHAR(30) NOT NULL,
+    text VARCHAR(100) NOT NULL,
+    user_id VARCHAR(30) NOT NULL,
+    PRIMARY KEY (id)
+);
