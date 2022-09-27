@@ -56,11 +56,23 @@ module.exports = function(injectedStore) {
         return await store.update(TABLE, id, data);
     };
 
+    const follow = async (from, to) => {
+        return await store.upsert(TABLE + '_follow', {
+            user_from: from,
+            user_to: to,
+        });
+    };
+
+    const following = async (id) => {
+        return await store.query(TABLE + '_follow', { user_from: id });
+    };
     return {
         list,
         get,
         upsert,
         remove,
         update,
+        follow,
+        following,
     };
 }

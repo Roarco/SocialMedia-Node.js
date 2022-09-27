@@ -6,6 +6,8 @@ const secure = require('./secure');
 
 router.get('/', getAll);
 router.get('/:id', getById);
+router.get('/:id/following',secure('follow'), following);
+router.post('/follows/:id', secure('follow'), follows);
 router.post('/', createUser);
 router.put('/:id',secure('update'), updateUser);
 router.delete('/:id', deleteUser);
@@ -56,6 +58,27 @@ async function updateUser(req, res, next) {
         const user = await controller.update(id, data);
         response.success(req, res, 'Usuario actualizado', 200, user);
     } catch (err) {
+        next(err);
+    }
+}
+
+async function follows(req, res, next) {
+    try {
+        const { id } = req.params;
+        const { user } = req;
+        const userFollow = await controller.follow(user.id, id);
+        response.success(req, res, 'Usuario seguido', 201, userFollow);
+    }catch(err) {
+        next(err);
+    }
+}
+
+async function following(req, res, next) {
+    try{
+        const { id } = req.params;
+        const user = await controller.following(id);
+        response.success(req, res, 'Usuarios seguidos', 200, user);
+    }catch(err) {
         next(err);
     }
 }

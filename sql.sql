@@ -20,3 +20,10 @@ CREATE TABLE auth (
     password VARCHAR(100) NOT NULL,
     PRIMARY KEY (id)
 );
+
+--create table user_follow
+CREATE TABLE user_follow (
+    user_from VARCHAR(30) NOT NULL,
+    user_to VARCHAR(30) NOT NULL,
+    PRIMARY KEY (user_from, user_to)
+);

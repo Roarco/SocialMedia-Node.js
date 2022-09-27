@@ -7,13 +7,17 @@ const sign = (data) => {
 };
 
 const check ={
-    own: function(req,res, owner){
+    own: function(req, owner){
         const decoded = decodeHeader(req);
         if(decoded.id !== owner){
             throw boom.unauthorized('You can not do this');
         }
     },
-}
+    logged: function(req){
+        const decoded = decodeHeader(req);
+    },
+
+};
 
 const decodeHeader = (req) => {
     const authorization = req.headers.authorization || '';
