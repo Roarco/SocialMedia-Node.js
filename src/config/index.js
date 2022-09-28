@@ -9,6 +9,9 @@ const config = {
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE ,
   },
+  mysqlService: {
+    port: process.env.MYSQL_SERVICE_PORT || 3002,
+  },
 };
 
 module.exports = config;
