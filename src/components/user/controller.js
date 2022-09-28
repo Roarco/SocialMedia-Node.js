@@ -12,7 +12,8 @@ module.exports = function(injectedStore) {
     }
 
     const list = async () => {
-        return await store.list(TABLE);
+        const users = await store.list(TABLE);
+        return users.data;
     };
 
     const get = async (id) => {
@@ -20,7 +21,7 @@ module.exports = function(injectedStore) {
         if (user.length === 0) {
             throw boom.badRequest('Invalid user');
         }
-        return user;
+        return user.data;
     };
 
     const upsert = async (name,username,password) => {
