@@ -1,4 +1,3 @@
-const auth = require('../auth');
 const nanoid = require('nanoid')
 const boom = require('@hapi/boom');
 
@@ -7,11 +6,12 @@ const TABLE = 'post';
 module.exports = function(injectedStore) {
     let store = injectedStore;
     if (!store) {
-        store = require('../../store/dummy');
+        store = require('../../../../store/dummy');
     }
 
     const list = async () => {
-        return await store.list(TABLE);
+        const posts = await store.list(TABLE);
+        return posts.data;
     };
 
     const get = async (id) => {
@@ -19,7 +19,7 @@ module.exports = function(injectedStore) {
         if (post.length === 0) {
             throw boom.badRequest('Invalid post');
         }
-        return post;
+        return post.data;
     };
 
     const upsert = async (text,user_id) => {

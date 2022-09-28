@@ -24,8 +24,8 @@ function createRemoteDB(host, port){
 
     async function upsert(table, data){
         try{
-            const { data } = await axios.post(`${URL}/${table}`, data)
-            return data
+            const { response } = await axios.post(`${URL}/${table}`, data)
+            return response
         }catch(err){
             console.error(err)
         }
@@ -42,8 +42,8 @@ function createRemoteDB(host, port){
 
     async function update(table, id, data){
         try{
-            const { data } = await axios.patch(`${URL}/${table}/${id}`, data)
-            return data
+            const { response } = await axios.patch(`${URL}/${table}/${id}`, data)
+            return response
         }catch(err){
             console.error(err)
         }

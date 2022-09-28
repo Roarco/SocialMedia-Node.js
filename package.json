@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "microservice-mysql": "nodemon src/mysql/index.js"
+    "microservice-mysql": "nodemon src/microService/mysql/index.js",
+    "microservice-post":  "nodemon src/microService/post/index.js"
   },
   "keywords": [],
   "author": "Roberth Arrieta <sebuscaroberth@gmail.com>",
