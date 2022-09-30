@@ -6,8 +6,9 @@ const router = express.Router();
 
 router.get('/:table', list);
 router.get('/:table/:id', get);
+router.post('/:table/query', following);
 router.post('/:table', upsert);
-router.put('/:table', update);
+router.put('/:table/:id', update);
 router.delete('/:table/:id', remove);
 
 
@@ -45,7 +46,8 @@ async function upsert(req, res, next) {
 async function update(req, res, next) {
     try{
         const table = req.params.table;
-        const data = await store.update(table, req.body);
+        const id = req.params.id;
+        const data = await store.update(table, id, req.body);
         response.success(req, res,'successful query', 201, data);
     }catch(err){
         next(err);
@@ -57,6 +59,17 @@ async function remove(req, res, next) {
         const table = req.params.table;
         const id = req.params.id;
         const data = await store.remove(table, id);
+        response.success(req, res, 'successful query', 201, data);
+    }catch(err){
+        next(err);
+    }
+}
+
+async function following(req, res, next) {
+    try{
+        const table = req.params.table;
+        const { query, join} = req.body;
+        const data = await store.query(table, query, join);
         response.success(req, res, 'successful query', 201, data);
     }catch(err){
         next(err);

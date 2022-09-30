@@ -41,7 +41,13 @@ module.exports = function(injectedStore) {
         if (post.length === 0) {
             throw boom.badRequest('Invalid post');
         }
-        await store.remove(TABLE, id);
+        const deleted = await store.remove(TABLE, id);
+
+        if (deleted.data.affectedRows === 0) {
+            throw boom.badRequest('Invalid post');
+        }
+
+        return deleted.data;
     };
 
     return {

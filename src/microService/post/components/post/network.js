@@ -41,7 +41,7 @@ async function deletePost(req, res, next) {
     try {
         const { id } = req.params;
         const post = await controller.remove(id);
-        response.success(req, res, 'Post eliminado', 200, post);
+        response.success(req, res, 'Post eliminado', 200);
     } catch (err) {
         next(err);
     }

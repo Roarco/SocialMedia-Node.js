@@ -5,7 +5,7 @@ const boom = require('@hapi/boom');
 
 const TABLE = 'user';
 
-module.exports = function(injectedStore) {
+module.exports = function (injectedStore) {
     let store = injectedStore;
     if (!store) {
         store = require('../../store/dummy');
@@ -24,7 +24,7 @@ module.exports = function(injectedStore) {
         return user.data;
     };
 
-    const upsert = async (name,username,password) => {
+    const upsert = async (name, username, password) => {
         if (!name || !username || !password) {
             throw boom.badRequest('Invalid data');
         }
@@ -50,7 +50,13 @@ module.exports = function(injectedStore) {
         if (user.length === 0) {
             throw boom.badRequest('Invalid user');
         }
-        await store.remove(TABLE, id);
+        const deleted = await store.remove(TABLE, id);
+
+        if (deleted.data.affectedRows === 0) {
+            throw boom.badRequest('Invalid user');
+        }
+
+        return deleted;
     };
 
     const update = async (id, data) => {
@@ -58,14 +64,30 @@ module.exports = function(injectedStore) {
         if (!data || !Object.keys(data).length) {
             throw boom.badRequest('Invalid data');
         }
-        return await store.update(TABLE, id, data);
+
+        const user = await store.get(TABLE, id);
+        if (user.data.length === 0) {
+            throw boom.badRequest('Invalid user');
+        }
+        const updated = await store.update(TABLE, id, data);
+        //validamos que no aya ocurrido un error
+
+        if (updated != undefined) {
+            if (updated.response.data.message) {
+                throw boom.badRequest(updated.response.data.message);
+            }
+        }
+        return updated;
     };
 
     const follow = async (from, to) => {
-        return await store.upsert(TABLE + '_follow', {
-            user_from: from,
-            user_to: to,
-        });
+        const following = await store.upsert(TABLE + '_follow', { user_from: from, user_to: to });
+        if (following != undefined) {
+            if (following.response.data.message) {
+                throw boom.badRequest(following.response.data.message);
+            }
+        }
+        return following;
     };
 
     const following = async (user) => {
@@ -73,8 +95,12 @@ module.exports = function(injectedStore) {
         join[TABLE] = 'user_to';
         const query = { user_from: user };
         const following = await store.query(TABLE + '_follow', query, join);
+        if (following.data.length === 0) {
+            return [];
+        }
+
         // eliminamos el campo password de la respuesta
-        return following.map((follow) => {
+        return following.data.map((follow) => {
             delete follow.password;
             return follow;
         });

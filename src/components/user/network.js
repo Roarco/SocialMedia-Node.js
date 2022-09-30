@@ -45,7 +45,7 @@ async function deleteUser(req, res, next) {
     try {
         const { id } = req.params;
         const user = await controller.remove(id);
-        response.success(req, res, 'Usuario eliminado', 200, user);
+        response.success(req, res, 'Usuario eliminado', 200);
     } catch (err) {
         next(err);
     }
@@ -67,7 +67,7 @@ async function follows(req, res, next) {
         const { id } = req.params;
         const { user } = req;
         const userFollow = await controller.follow(user.id, id);
-        response.success(req, res, 'Usuario seguido', 201, userFollow);
+        response.success(req, res, 'Usuario seguido', 201);
     }catch(err) {
         next(err);
     }
