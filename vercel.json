@@ -8,11 +8,11 @@
         },
         {
             "src": "src/microService/mysql/index.js",
-            "use": "@vercel/node-server"
+            "use": "@vercel/node"
         },
         {
             "src": "src/microService/post/index.js",
-            "use": "@vercel/node-server"
+            "use": "@vercel/node"
         }
     ],
     "routes": [
