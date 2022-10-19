@@ -4,7 +4,7 @@
   "description": "Proyecto del curso de NodeJS: Autenticacion,Microserviciosy Redis",
   "main": "src/index.js",
   "scripts": {
-    "build": "node src/index.js",
+    "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "microservice-mysql": "nodemon src/microService/mysql/index.js",
     "microservice-post":  "nodemon src/microService/post/index.js"

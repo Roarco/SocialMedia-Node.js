@@ -3,15 +3,15 @@
     "name": "Social Media",
     "builds":[
         {
-            "src": "src/index.js",
+            "src": "./src/index.js",
             "use": "@vercel/node"
         },
         {
-            "src": "src/microService/mysql/index.js",
+            "src": "./src/microService/mysql/index.js",
             "use": "@vercel/node"
         },
         {
-            "src": "src/microService/post/index.js",
+            "src": "./src/microService/post/index.js",
             "use": "@vercel/node"
         }
     ],
